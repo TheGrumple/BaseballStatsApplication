@@ -33,7 +33,8 @@
 		<StackPanel>
 			<TextBlock Text="{Binding Result, StringFormat=F3}" />
 			<Button Margin="5" Command="{Binding Command1}">Calculate Earned Run Average</Button>
-			<Button Margin="5" Command="{Binding Command2}">Calculate Hits</Button>
+			<Button Margin="5" Command="{Binding Command2}">Serialize</Button>
+			<Button Margin="5" Click="Button_Click">Create New</Button>
 		</StackPanel>
 	</Grid>
 </Window>

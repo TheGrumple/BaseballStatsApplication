@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace StatisticsApp
 {
@@ -12,13 +14,13 @@ namespace StatisticsApp
 	{
 		#region Members
 
-		private int m_hits;
+		public List<Hitter> m_hitters = new List<Hitter>();
+		private DelegateCommand m_commandOne;
+		private DelegateCommand m_commandTwo;
+		public string m_path = @"C:\Users\eyoung\source\repos\TestSerializerFolder\Test.xml";
 		public int m_earnedRuns;
 		public float m_inningsPitched;
 		private float m_result;
-		private List<Hitter> m_hitters = new List<Hitter>();
-		private DelegateCommand m_commandOne;
-		private DelegateCommand m_commandTwo;
 		private float m_onBasePercentage;
 		private float m_sluggingPercentage;
 		private float m_onBasePlusSlugging;
@@ -44,9 +46,9 @@ namespace StatisticsApp
 		{
 			m_earnedRuns = 9;
 			m_inningsPitched = 38.1f;
-			m_hitters.Add(new Hitter() { Assists = 3, AtBats = 100, CaughtStealing = 3, Doubles = 44, FlyBalls = 70, GroundBalls = 20, GroundedIntoDoublePlay = 4, HitByPitch = 2, Hits = 100, HomeRuns = 13, IntentionalWalksDrawns = 3, Name = "Eric", PlateAppearances = 125, Position = "Shortstop", PutOuts = 32, ReachBaseOnError = 5, RunsScored = 77, SacBunts = 9, SacFlies = 12, Singles = 45, StolenBases = 60, Triples = 8, WalksDrawn = 23});
+			m_hitters.Add(new Hitter() { Assists = 3, AtBats = 100, CaughtStealing = 3, Doubles = 44, FlyBalls = 70, GroundBalls = 20, GroundedIntoDoublePlay = 4, HitByPitch = 2, Hits = 100, HomeRuns = 13, IntentionalWalksDrawns = 3, Name = "Eric", PlateAppearances = 125, Position = "Shortstop", PutOuts = 32, ReachBaseOnError = 5, RunsScored = 77, SacBunts = 9, SacFlies = 12, Singles = 45, StolenBases = 60, Triples = 8, WalksDrawn = 23 });
 			m_commandOne = new DelegateCommand(() => EarnedRunAverage(4, 9.0f));
-			m_commandTwo = new DelegateCommand(() => ComputeStatistics());
+			m_commandTwo = new DelegateCommand(() => SerializerTest());
 		}
 
 		public ICommand Command1 => m_commandOne;
@@ -203,9 +205,21 @@ namespace StatisticsApp
 
 		public float RunsCreatedTechnical(int Hits, int WalksDrawn, int TotalBases, int AtBats, int StolenBases, int CaughtStealing, int HitByPitch, int GroundedIntoDoublePlay, int IntentionalWalksDrawn, int SacBunts, int SacFlies)
 		{
-			var runsCreatedTechnical = ((Hits + WalksDrawn - CaughtStealing + HitByPitch - GroundedIntoDoublePlay) * (TotalBases + (.26f * (WalksDrawn - IntentionalWalksDrawn + HitByPitch)))) + (.52f * ( SacBunts + SacFlies + StolenBases))/ (AtBats + WalksDrawn + HitByPitch + SacBunts + SacFlies);
+			var runsCreatedTechnical = ((Hits + WalksDrawn - CaughtStealing + HitByPitch - GroundedIntoDoublePlay) * (TotalBases + (.26f * (WalksDrawn - IntentionalWalksDrawn + HitByPitch)))) + (.52f * (SacBunts + SacFlies + StolenBases)) / (AtBats + WalksDrawn + HitByPitch + SacBunts + SacFlies);
 			m_runsCreatedTechnical = runsCreatedTechnical;
 			return runsCreatedTechnical;
+		}
+
+		public void SerializerTest()
+		{
+			// Create new serializer for the Hitter class
+			XmlSerializer serializer = new XmlSerializer(typeof(List<Hitter>));
+			// Create new streamwriter to the path of the xml file
+			StreamWriter writer = new StreamWriter(m_path);
+			// Serialize the current instance of Hitter
+			serializer.Serialize(writer, m_hitters);
+			//Close the filestream
+			writer.Close();
 		}
 
 		#endregion

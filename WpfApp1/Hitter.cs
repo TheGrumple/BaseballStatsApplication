@@ -6,20 +6,8 @@ using System.Threading.Tasks;
 
 namespace StatisticsApp
 {
-	class Hitter
+	public class Hitter
 	{
-		#region Members
-
-		
-
-		#endregion
-
-		#region Constructors
-
-
-
-		#endregion
-
 		#region Properties
 
 		#region Offensive Categories

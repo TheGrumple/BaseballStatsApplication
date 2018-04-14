@@ -10,32 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WpfApp1;
 
-namespace StatisticsApp
+namespace WpfApp1
 {
 	/// <summary>
-	/// Interaction logic for MainWindow.xaml
+	/// Interaction logic for CreateDialog.xaml
 	/// </summary>
-	public partial class MainWindow : Window
+	public partial class CreateDialog : Window
 	{
-		public MainWindow()
+		public CreateDialog()
 		{
 			InitializeComponent();
-			DataContext = new PlayerStatsViewModel();
-		}
-
-		private void CreateNewDialog()
-		{
-			var window = new CreateDialog();
-			window.ShowDialog();
-		}
-
-		private void Button_Click(object sender, RoutedEventArgs e)
-		{
-			CreateNewDialog();
 		}
 	}
 }
